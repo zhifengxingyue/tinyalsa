@@ -759,7 +759,7 @@ static int pcm_plug_open(unsigned int card, unsigned int device,
     }
 
     rc = plug_data->ops->open(&plug_data->plugin, card, device, flags);
-    if (rc) {
+    if (rc < 0) {
         fprintf(stderr, "%s: failed to open plugin\n", __func__);
         goto err_open;
     }
@@ -774,7 +774,7 @@ static int pcm_plug_open(unsigned int card, unsigned int device,
 
     plug_data->plugin->state = PCM_PLUG_STATE_OPEN;
 
-    return 0;
+    return rc;
 
 err_open:
 err_dlsym:
